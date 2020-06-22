@@ -1,0 +1,104 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion build_versions.target_sdk
+
+    defaultConfig {
+        applicationId "com.prototype.moviedbtest"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/movie/\"")
+            buildConfigField("String", "API_KEY", "\"220fe89c4f4d4187c1a08c4df2c33206\"")
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/movie/\"")
+            buildConfigField("String", "API_KEY", "\"220fe89c4f4d4187c1a08c4df2c33206\"")
+        }
+    }
+
+    android {
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.core:core-ktx:$versions.androidx"
+    implementation "androidx.appcompat:appcompat:$versions.appcompat"
+    implementation "com.google.android.material:material:$versions.material"
+    implementation "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
+
+    // Java Rx
+    implementation "io.reactivex.rxjava2:rxjava:$versions.rxjava"
+    implementation "io.reactivex.rxjava2:rxandroid:$versions.rx_android"
+
+    // coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava:$versions.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
+
+    // Room
+    implementation "android.arch.persistence.room:runtime:$versions.archVersion"
+    kapt "android.arch.persistence.room:compiler:$versions.archVersion"
+    implementation "android.arch.persistence.room:rxjava2:$versions.archVersion"
+
+    // dependency injection
+    implementation "com.google.dagger:dagger:$versions.dagger"
+    implementation "com.google.dagger:dagger-android:$versions.dagger"
+    implementation "com.google.dagger:dagger-android-support:$versions.dagger"
+    kapt "com.google.dagger:dagger-compiler:$versions.dagger"
+    kapt "com.google.dagger:dagger-android-processor:$versions.dagger"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$versions.glide"
+
+    // multidex
+    implementation "com.android.support:multidex:$versions.multidex"
+
+    // Espresso and UI Testing
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation "org.mockito:mockito-android:$versions.mockito"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$versions.espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$versions.espresso"
+
+    // Host-side tests
+    testImplementation 'androidx.test.ext:junit:1.1.0'
+    testImplementation 'org.robolectric:robolectric:4.3'
+    testImplementation "org.mockito:mockito-core:$versions.mockito"
+    testImplementation "org.mockito:mockito-inline:$versions.mockito"
+    testImplementation "org.robolectric:shadows-multidex:4.0.1"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:2.23.2"
+
+    // Espresso API running in Robolectric
+    testImplementation "androidx.test.espresso:espresso-core:$versions.espresso"
+    testImplementation "androidx.test.espresso:espresso-contrib:$versions.espresso"
+    testImplementation "androidx.test.espresso:espresso-intents:$versions.espresso"
+
+}
